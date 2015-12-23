@@ -1,0 +1,26 @@
+#!/bin/bash
+
+ENV_NAME=${1:-scapy}
+PYTHON_VERSION=${2:-2.7.10}
+
+# Setup Python
+pyenv install $PYTHON_VERSION --skip-existing
+
+# Create virtual environment
+if pyenv virtualenvs | sed 's/*//g' | awk '{print $1}' | grep "^${ENV_NAME}$" &> /dev/null; then
+    echo "Using existing '$ENV_NAME' virtual enviroment"
+else
+    echo "Creating '$ENV_NAME' virtual enviroment"
+    pyenv virtualenv $PYTHON_VERSION $ENV_NAME
+fi
+
+# Some packages (like Crypto) need an explicit prefix before installing
+export PREFIX=$(dirname $(pyenv which python))/../
+
+# Setup virtual environment
+pip install --upgrade pip
+pip install --upgrade pip-tools
+pip-sync requirements.txt
+
+# gnuplot-py is unverified
+pip install gnuplot-py --allow-external gnuplot-py --allow-unverified gnuplot-py
