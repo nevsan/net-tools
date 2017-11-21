@@ -1,17 +1,19 @@
 # Scapy and supporting packages
-scapy
-pypcap # Use this instead of pcapy
-dnet
-pyx==0.12.1 # Use this version for Python 2 compatibility
+scapy-python3
 
-# PyCrypto will try to install in System Python
-#  export PREFIX=$(dirname $(pyenv which python))/../
-# before installing
-pycrypto
+# Essential supporting packages
+netifaces
+cryptography
 
-numpy # Required by gnuplot-py
-# Install gnuplot-py with
-# pip install gnuplot-py --allow-external gnuplot-py --allow-unverified gnuplot-py
+# Optional support packages for special features
+pyx
+networkx
+graphviz
+
+# Currently having issues with pip-compile.
+# Run `pip install matplotlib`
+# matplotlib
 
 # Jupyter
 jupyter
+yapf
