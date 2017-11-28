@@ -44,7 +44,7 @@ python-dateutil==2.6.1    # via jupyter-client
 pyx==0.14.1
 pyzmq==16.0.3             # via jupyter-client
 qtconsole==4.3.1          # via jupyter
-scapy-python3==0.22
+scapy-python3==0.23
 simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via bleach, cryptography, html5lib, prompt-toolkit, python-dateutil, traitlets
 terminado==0.7            # via notebook

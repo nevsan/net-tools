@@ -1,5 +1,6 @@
 # Scapy and supporting packages
-scapy-python3
+# NOTE: 0.22 doesn't work in OS X because it uses AF_PACKET
+scapy-python3>=0.23
 
 # Essential supporting packages
 netifaces
