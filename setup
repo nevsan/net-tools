@@ -1,7 +1,24 @@
 #!/bin/bash
 
+set -e
+
 ENV_NAME=${1:-net}
 PYTHON_VERSION=${2:-3.6.1}
+
+# Install pyenv
+if ! command -v pyenv; then
+    if [[ "$OSTYPE" == "linux-gnu" ]]; then
+        sudo yum install -y git gcc make automake openssl-devel libsqlite3x-devel \
+             bzip2-devel readline-devel
+    fi
+
+    curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+fi
+
+# Add pyenv to the shell
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # Setup Python
 pyenv install $PYTHON_VERSION --skip-existing
@@ -13,7 +30,12 @@ if [[ ! -d "$(pyenv root)/versions/$ENV_NAME" ]]; then
 fi
 
 # Install prerequisites
-brew install libdnet graphviz
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    brew install libdnet graphviz
+elif [[ "$OSTYPE" == "linux-gnu" ]]; then
+    sudo yum install -y graphviz libdnet tcpdump sqlite
+    sudo firewall-cmd --zone=public --add-port=8888/tcp --permanent
+fi
 
 # Setup virtual environment
 pip install --upgrade pip
